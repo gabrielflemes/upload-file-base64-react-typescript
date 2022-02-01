@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 
+type FileInfo = {
+    name: string,
+    type: string,
+    size: string,
+    base64: string | ArrayBuffer | null,
+    file: string,
+}
 
 type props = {
     multiple: boolean,
@@ -13,7 +20,7 @@ export default function FileBase64({ multiple = false, onDone }: props) {
         let files = e.target.files;
 
         // Process each file
-        let allFiles: any[] = [];
+        let allFiles: FileInfo[] = [];
 
         for (var i = 0; i < files.length; i++) {
 
@@ -29,7 +36,7 @@ export default function FileBase64({ multiple = false, onDone }: props) {
             reader.onload = () => {
 
                 // Make a fileInfo Object
-                let fileInfo = {
+                let fileInfo: FileInfo = {
                     name: file.name,
                     type: file.type,
                     size: Math.round(file.size / 1000) + ' kB',
@@ -40,7 +47,7 @@ export default function FileBase64({ multiple = false, onDone }: props) {
                 // Push it to the state
                 allFiles.push(fileInfo);
 
-    
+
                 // If all files have been proceed
                 if (allFiles.length == files.length) {
                     // Apply Callback function
